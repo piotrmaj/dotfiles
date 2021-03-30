@@ -131,7 +131,7 @@ let g:asyncomplete_auto_completeopt = 0
 "call plug#end()
 """""""""""""""""""""""""""AESTHETICS""""""""""""""""""""""
 " Colorscheme
-colorscheme gruvbox
+"colorscheme gruvbox
 " hi Comment guifg=#999090
 hi CocCodeLens guibg=#333333 guifg=#999090
 hi Normal guibg=#000000

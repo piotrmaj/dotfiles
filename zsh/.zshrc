@@ -107,3 +107,4 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source ~/.p10k.zsh
+export PATH=/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin/:$PATH

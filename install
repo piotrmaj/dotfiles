@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+
+set -e
+
+skip_system_packages="${1}"
+
+os_type="$(uname -s)"
+
+apt_packages="curl git iproute2 python3-pip ripgrep tmux vim-gtk zsh"
+apt_packages_optional="gnupg htop jq pass pwgen rsync shellcheck unzip"
+
+brew_packages="diffutils git python ripgrep tmux vim zsh"
+brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
+
+install_asdf_version="v0.8.1"
+install_node_version="14.17.3"
+
+###############################################################################
+# Detect OS and distro type
+###############################################################################
+
+function no_system_packages() {
+cat << EOF
+System package installation isn't supported with your OS / distro.
+
+Please install any dependent packages on your own. You can view the list at:
+
+    https://github.com/nickjj/dotfiles/blob/master/install
+
+Then re-run the script and explicitly skip installing system packages:
+
+    bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
+EOF
+
+exit 1
+}
+
+case "${os_type}" in
+    Linux*)
+        os_type="Linux"
+
+        if [ !  -f "/etc/debian_version" ]; then
+           [ -z "${skip_system_packages}" ] && no_system_packages
+        fi
+
+        ;;
+    Darwin*) os_type="macOS";;
+    *)
+        os_type="Other"
+
+        [ -z "${skip_system_packages}" ] && no_system_packages
+
+        ;;
+esac
+
+###############################################################################
+# Install packages using your OS' package manager
+###############################################################################
+
+function apt_install_packages {
+    # shellcheck disable=SC2086
+    sudo apt-get update && sudo apt-get install -y ${apt_packages} ${apt_packages_optional}
+}
+
+function brew_install_self {
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+function brew_install_packages {
+    [ -x "$(command -v brew > /dev/null 2>&1)" ] && brew_install_self
+
+    # shellcheck disable=SC2086
+    brew install ${brew_packages} ${brew_packages_optional}
+}
+
+function display_packages {
+    if [ "${os_type}" == "Linux" ]; then
+        echo "${apt_packages} ${apt_packages_optional}"
+    else
+        echo "${brew_packages} ${brew_packages_optional}"
+    fi
+}
+
+if [ -z "${skip_system_packages}" ]; then
+cat << EOF
+
+If you choose yes, all of the system packages below will be installed:
+
+$(display_packages)
+
+If you choose no, the above packages will not be installed and this script
+will exit. This gives you a chance to edit the list of packages if you don't
+agree with any of the decisions.
+
+The packages listed after zsh are technically optional but are quite useful.
+Keep in mind if you don't install pwgen you won't be able to generate random
+passwords using a custom alias that's included in these dotfiles.
+
+EOF
+    while true; do
+        read -rp "Do you want to install the above packages? (y/n) " yn
+        case "${yn}" in
+            [Yy]*)
+                if [ "${os_type}" == "Linux" ]; then
+                    apt_install_packages
+                else
+                    brew_install_packages
+                fi
+
+                break;;
+            [Nn]*) exit 0;;
+            *) echo "Please answer y or n";;
+        esac
+    done
+else
+    echo "System package installation was skipped!"
+fi
+
+###############################################################################
+# Clone dotfiles
+###############################################################################
+
+read -rep $'\nWhere do you want to clone these dotfiles to [~/dotfiles]? ' clone_path
+clone_path="${clone_path:-"${HOME}/dotfiles"}"
+
+# Ensure path doesn't exist.
+while [ -e "${clone_path}" ]; do
+    read -rep $'\nPath exists, try again? (y) ' y
+    case "${y}" in
+        [Yy]*)
+
+            break;;
+        *) echo "Please answer y or CTRL+c the script to abort everything";;
+    esac
+done
+
+echo
+
+# This is used to locally develop the install script.
+if [ "${DEBUG}" == "1" ]; then
+    cp -R "${PWD}/." "${clone_path}"
+else
+    git clone https://github.com/piotrmaj/dotfiles "${clone_path}"
+fi
+

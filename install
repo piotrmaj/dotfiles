@@ -25,11 +25,11 @@ System package installation isn't supported with your OS / distro.
 
 Please install any dependent packages on your own. You can view the list at:
 
-    https://github.com/nickjj/dotfiles/blob/master/install
+    https://github.com/piotrmaj/dotfiles/blob/master/install
 
 Then re-run the script and explicitly skip installing system packages:
 
-    bash <(curl -sS https://raw.githubusercontent.com/nickjj/dotfiles/master/install) --skip-system-packages
+    bash <(curl -sS https://raw.githubusercontent.com/piotrmaj/dotfiles/master/install) --skip-system-packages
 EOF
 
 exit 1
@@ -115,6 +115,11 @@ EOF
 else
     echo "System package installation was skipped!"
 fi
+
+###############################################################################
+# Install ohmyzsh
+###############################################################################
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 ###############################################################################
 # Clone dotfiles

@@ -117,6 +117,11 @@ else
 fi
 
 ###############################################################################
+# Install fonts
+###############################################################################
+font_url='https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip'; font_name=${font_url##*/}; wget ${font_url} && unzip ${font_name} -d ~/.fonts && fc-cache -fv 
+
+###############################################################################
 # Install ohmyzsh
 ###############################################################################
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

@@ -6,10 +6,10 @@ skip_system_packages="${1}"
 
 os_type="$(uname -s)"
 
-apt_packages="curl git ripgrep tmux neovim zsh"
+apt_packages="curl git ripgrep tmux neovim zsh wget fontconfig"
 apt_packages_optional="gnupg htop jq pass pwgen rsync shellcheck unzip"
 
-brew_packages="diffutils git python ripgrep tmux vim zsh"
+brew_packages="diffutils git python ripgrep tmux vim zsh wget"
 brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
 
 install_asdf_version="v0.8.1"
@@ -129,6 +129,7 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 ###############################################################################
 # Install ohmyzsh -> powerlevel10k
 ###############################################################################
+if [ ! -n "$(grep "^github.com " ~/.ssh/known_hosts)" ]; then ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null; fi
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 ###############################################################################
@@ -158,3 +159,7 @@ else
     git clone git@github.com:piotrmaj/dotfiles.git "${clone_path}"
 fi
 
+###############################################################################
+# Execute symlink
+###############################################################################
+cd ${clone_path} && bash symlink.sh

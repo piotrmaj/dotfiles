@@ -6,5 +6,5 @@ ln -f -s $SCRIPT_DIR/git/.gitconfig ~
 ln -f -s $SCRIPT_DIR/libinput-gestures.conf ~/.config/libinput-gestures.conf
 ln -f -s $SCRIPT_DIR/zsh/.zshrc ~/.zshrc
 ln -f -s $SCRIPT_DIR/zsh/.p10k.zsh ~/.p10k.zsh
-ln -fs $SCRIPT_DIR/i3/config ~/.config/i3/config
+ln -f -s $SCRIPT_DIR/i3/config ~/.config/i3/config
 

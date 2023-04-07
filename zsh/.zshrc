@@ -109,5 +109,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Aliases
+alias vim=nvim
+
 source ~/.p10k.zsh
 export PATH=/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin/:$PATH

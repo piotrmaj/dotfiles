@@ -7,7 +7,8 @@ skip_system_packages="${1}"
 os_type="$(uname -s)"
 
 apt_packages="curl git ripgrep tmux neovim zsh wget fontconfig"
-apt_packages_optional="gnupg htop jq pass pwgen rsync shellcheck unzip i3"
+apt_packages_optional="gnupg htop jq pass pwgen rsync shellcheck unzip i3 snap"
+snap_packages="spotify"
 
 brew_packages="diffutils git python ripgrep tmux vim zsh wget"
 brew_packages_optional="gnupg htop jq pass pwgen rsync shellcheck"
@@ -60,6 +61,7 @@ esac
 function apt_install_packages {
     # shellcheck disable=SC2086
     sudo apt-get update && sudo apt-get install -y ${apt_packages} ${apt_packages_optional}
+    sudo snap install ${snap_packages}
 }
 
 function brew_install_self {

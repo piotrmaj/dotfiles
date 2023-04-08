@@ -146,14 +146,13 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # Always open some programs on specified workspace
-exec_always --no-startup-id i3-msg 'workspace $ws1; exec i3-sensible-terminal'
 exec_always --no-startup-id i3-msg 'workspace $ws2; exec google-chrome --new-window'
 assign [class="Google-chrome"] workspace $ws2
 exec_always --no-startup-id i3-msg 'workspace $ws3; exec google-chrome --new-window https://www.twitch.tv/directory/game/Software%20and%20Game%20Development'
 for_window  [title="Twitch"]         move to workspace $ws3
 exec_always --no-startup-id i3-msg 'workspace 4; exec /snap/bin/spotify'
 assign [class="Spotify"]          $ws4
-
+exec_always i3-msg 'workspace $ws1; exec i3-sensible-terminal'
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

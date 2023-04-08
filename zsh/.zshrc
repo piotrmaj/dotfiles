@@ -82,7 +82,7 @@ plugins=(git tmux)
 # tmux plugin
 ZSH_TMUX_AUTOSTART=true
 #below always create new session
-#ZSH_TMUX_AUTOCONNECT=false
+ZSH_TMUX_AUTOCONNECT=false
 
 source $ZSH/oh-my-zsh.sh
 
@@ -117,3 +117,5 @@ alias vim=nvim
 
 source ~/.p10k.zsh
 export PATH=/Applications/Visual\ Studio\ Code\ -\ Insiders.app/Contents/Resources/app/bin/:$PATH
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

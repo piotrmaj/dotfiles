@@ -81,6 +81,8 @@ plugins=(git tmux)
 
 # tmux plugin
 ZSH_TMUX_AUTOSTART=true
+#below always create new session
+#ZSH_TMUX_AUTOCONNECT=false
 
 source $ZSH/oh-my-zsh.sh
 

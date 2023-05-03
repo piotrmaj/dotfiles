@@ -23,6 +23,9 @@ if !is_nixos
 
     " c#,.net stuff
     Plug 'OmniSharp/omnisharp-vim'
+    Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
   call plug#end()
 endif
 
@@ -48,16 +51,6 @@ set nospell
 set nowrapscan
 set number
 set path+=**
-set relativenumber
-set regexpengine=1
-set ruler
-set scrolloff=4
-set shada=:10,'10,%,n~/.local/share/nvim/shada/main.shada
-set shiftwidth=2
-set shortmess+=ac
-set showcmd
-set signcolumn=yes
-set smartcase
 set smartindent
 set smarttab
 set splitright
@@ -75,60 +68,8 @@ set wildmode=longest,list,full
 set completeopt=menuone,noinsert,noselect ",popuphidden
 "set completepopup=highlight:Pmenu,border:off
 "set completeopt=longest,menuone,preview
+set clipboard+=unnamedplus "use system clipboard in vim
 
-"""""""""""""""""""""""""""PLUGINS"""""""""""""""""""""""""""""
-
-""""""Misc
-"Plug 'scrooloose/nerdtree'
-autocmd StdinReadPre * let s:std_in=1
-" Open NERDTree if no file specified
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" Open NERDTree if opening a directory
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-" Close vim if the only window left is NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-map <C-b> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-let g:NERDTreeDirArrowExpandable = '+'
-let g:NERDTreeDirArrowCollapsible = '-'
-let g:NERDTreeNodeDelimiter = "\u00a0"
-
-"Plug 'morhetz/gruvbox'
-let g:gruvbox_italic=1
-let g:gruvbox_italicize_comments=0
-let g:gruvbox_italicize_strings=1
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_contrast_light='soft'
-let g:gruvbox_invert_indent_guides=1
-let g:gruvbox_sign_column='bg0'
-
-"Plug 'fzf bindings'
-nnoremap <C-p> :GFiles<CR>
-"nnoremap <leader>r :Rg<CR>
-"nnoremap <leader>b :Buffers<CR>
-"nnoremap <leader>e :Files<CR>
-"nnoremap <leader>l :Lines<CR>
-"nnoremap <leader>L :BLines<CR>
-"nnoremap <leader>c :Commits<CR>
-"nnoremap <leader>C :BCommits<CR>
-" fzf is using silver-searcher
-nnoremap <C-F> :Ag<CR>
-
-"Plug 'omnisharp-vim'
-let g:OmniSharp_server_path = 'omnisharp'
-let g:OmniSharp_loglevel = 'none' " workaround for log file path being in store
-
-"Plug 'ALE'
-let g:ale_linters = { 'cs': ['OmniSharp'] }
-let g:ale_lint_on_text_changed = 'always'
-
-" Asyncomplete: {{{
-let g:asyncomplete_auto_popup = 1
-let g:asyncomplete_auto_completeopt = 0
-" }}}
-
-""""""
-"call plug#end()
 """""""""""""""""""""""""""AESTHETICS""""""""""""""""""""""
 " Colorscheme
 colorscheme gruvbox
@@ -192,6 +133,7 @@ augroup END
 " Scroll in wrapped lines
 "map <Up> gk
 "map <Down> gj
+let mapleader=" "
 """"""""""""""""""""""""INSERT MODE MAPS"""""""""""""""""""
 
 " paste
@@ -237,4 +179,61 @@ vnoremap <C-c> "+y
 vnoremap <C-x> "+d
 
 """"""""""""""""""""""""""""MISC""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""PLUGINS"""""""""""""""""""""""""""""
+
+""""""Misc
+"Plug 'scrooloose/nerdtree'
+autocmd StdinReadPre * let s:std_in=1
+" Open NERDTree if no file specified
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Open NERDTree if opening a directory
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+" Close vim if the only window left is NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+map <C-b> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '-'
+let g:NERDTreeNodeDelimiter = "\u00a0"
+
+"Plug 'morhetz/gruvbox'
+let g:gruvbox_italic=1
+let g:gruvbox_italicize_comments=0
+let g:gruvbox_italicize_strings=1
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_light='soft'
+let g:gruvbox_invert_indent_guides=1
+let g:gruvbox_sign_column='bg0'
+
+"Plug 'fzf bindings'
+nnoremap <C-p> :GFiles<CR>
+"nnoremap <leader>r :Rg<CR>
+"nnoremap <leader>b :Buffers<CR>
+"nnoremap <leader>e :Files<CR>
+"nnoremap <leader>l :Lines<CR>
+"nnoremap <leader>L :BLines<CR>
+"nnoremap <leader>c :Commits<CR>
+"nnoremap <leader>C :BCommits<CR>
+" fzf is using silver-searcher
+nnoremap <C-F> :Ag<CR>
+
+"Plug 'omnisharp-vim'
+let g:OmniSharp_server_path = 'omnisharp'
+let g:OmniSharp_loglevel = 'none' " workaround for log file path being in store
+
+"Plug 'ALE'
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:ale_lint_on_text_changed = 'always'
+
+" Asyncomplete: {{{
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+" }}}
+
+"Plug 'Telescope', Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 

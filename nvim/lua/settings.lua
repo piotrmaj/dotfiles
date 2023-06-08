@@ -5,5 +5,6 @@ opt.clipboard = 'unnamedplus'
 opt.number = true
 opt.relativenumber = true
 
+require('settings.cmp')
 require('settings.colors')
 require('settings.telescope')

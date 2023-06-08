@@ -28,3 +28,6 @@ end
 
 -- Install your plugins here
 lazy.setup('plugins')
+
+require('lsp')
+require('settings')

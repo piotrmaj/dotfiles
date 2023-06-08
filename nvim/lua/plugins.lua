@@ -4,5 +4,10 @@ return {
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig", -- enable LSP
-	"williamboman/nvim-lsp-installer",
+
+	--	Code navigation
+	{'nvim-telescope/telescope.nvim', dependencies = { 'nvim-lua/plenary.nvim' }},
+
+	-- 	Styling
+	{ 'rose-pine/neovim', name = 'rose-pine' },
 }

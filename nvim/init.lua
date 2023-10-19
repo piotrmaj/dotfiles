@@ -15,10 +15,6 @@ vim.opt.rtp:prepend(lazypath)
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
 
-keymap("", "<SPACE>", "<NOP>", opts)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- Use a protected call so we don't error out on first use
 local status_ok, lazy = pcall(require, "lazy")
 if not status_ok then
@@ -29,5 +25,6 @@ end
 -- Install your plugins here
 lazy.setup('plugins')
 
+require('remap')
 require('lsp')
 require('settings')

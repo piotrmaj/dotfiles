@@ -1,5 +1,5 @@
-# Visual Studio extensions to install: VsVim 2022, VsNerdX
-# VsVim 2022 - put it into %USERPROFILE%
+" Visual Studio extensions to install: VsVim 2022, VsNerdX
+" VsVim 2022 - put it into %USERPROFILE%
 
 set clipboard=unnamed
 set ignorecase

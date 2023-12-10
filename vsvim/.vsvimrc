@@ -1,0 +1,11 @@
+# Visual Studio extensions to install: VsVim 2022, VsNerdX
+# VsVim 2022 - put it into %USERPROFILE%
+
+set clipboard=unnamed
+set ignorecase
+
+map <A-R> <C-R>
+
+" gd goes to definition by default
+map gr :vsc Edit.FindAllReferences<CR>
+map gi :vsc Edit.GoToImplementation<CR>
